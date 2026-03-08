@@ -1,0 +1,542 @@
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.header {
+    background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header h1::before {
+    content: '🔌';
+    font-size: 28px;
+}
+
+.time-badge {
+    position: absolute;
+    right: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+/* 主容器 - 左右分栏布局 */
+.container {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+}
+
+/* 左侧主内容区 */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 右侧辅助区（阈值设置） */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 卡片通用样式 */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f1f5f9;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+/* 实时数据网格 */
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.sensor-item {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease;
+}
+
+.sensor-item:hover {
+    transform: translateY(-2px);
+}
+
+.sensor-label {
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.sensor-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e3a8a;
+    line-height: 1.2;
+}
+
+.sensor-unit {
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748b;
+    margin-left: 6px;
+}
+
+/* 设备控制区 */
+.device-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.switch-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.switch-label {
+    font-weight: 500;
+    color: #1e3a8a;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.switch-label::before {
+    content: '';
+    width: 3px;
+    height: 16px;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+.switch-btn {
+    width: 60px;
+    height: 32px;
+    border-radius: 32px;
+    background: #e2e8f0;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.switch-btn.on {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.switch-btn::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: left 0.25s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.switch-btn.on::after {
+    left: 30px;
+    transform: scale(1.05);
+}
+
+.switch-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* 历史数据区 */
+.history-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* 自定义时间输入框样式 */
+.custom-time-group {
+    display: flex;
+    gap: 10px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+}
+
+.time-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f8fafc;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.time-input:focus {
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.confirm-btn {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+.history-time-group, .history-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.history-time-btn, .history-attr-btn {
+    flex: 1;
+    background: #e2e8f0;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.history-time-btn.active, .history-attr-btn.active {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    color: white;
+}
+
+.history-time-btn:hover:not(.active), .history-attr-btn:hover:not(.active) {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.history-attr-btn {
+    flex: 1 0 auto;
+    min-width: 60px;
+}
+
+.peak-info {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+}
+
+.peak-info span {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+#historyChart {
+    width: 100%;
+    height: 300px;
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.05);
+    border: 1px solid #f1f5f9;
+}
+
+/* 阈值设置区 */
+.threshold-item {
+    margin-bottom: 16px;
+}
+
+.threshold-item:last-child {
+    margin-bottom: 0;
+}
+
+.threshold-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.threshold-name {
+    font-weight: 500;
+    color: #334155;
+    font-size: 15px;
+}
+
+.threshold-value-display {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+.threshold-unit {
+    font-size: 14px;
+    color: #64748b;
+    margin-left: 6px;
+}
+
+.slider-with-steps {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.step-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a8a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-btn:hover {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.step-btn:active {
+    background: #bfdbfe;
+    transform: scale(0.95);
+}
+
+.slider {
+    flex: 1;
+    accent-color: #3b82f6;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f8fafc;
+    outline: none;
+    transition: all 0.2s ease;
+    color: #1e3a8a;
+}
+
+.input-group input:focus {
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.input-group button {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.input-group button:hover {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+/* 提示信息 */
+.error-msg {
+    color: #dc2626;
+    background: #fee2e2;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    margin: 12px 0;
+    display: none;
+    border: 1px solid #fecdd3;
+}
+
+.loading {
+    text-align: center;
+    color: #475569;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.footer-note {
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    padding: 16px 0;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 24px;
+}
+
+/* 响应式适配 */
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        order: 2; /* 移动端阈值设置区放下面 */
+    }
+    
+    .main-content {
+        order: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    /* 针对小屏手机（包括 iPhone 17 Pro Max 等大屏手机）优化 */
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .sensor-value {
+        font-size: 24px; /* 增大数值显示 */
+    }
+    
+    .switch-btn {
+        width: 68px;      /* 增大开关按钮宽度 */
+        height: 36px;     /* 增大开关按钮高度 */
+    }
+    
+    .switch-btn.on::after {
+        left: 36px;       /* 滑块跟随调整 */
+    }
+    
+    .step-btn {
+        width: 40px;      /* 增大步进按钮尺寸 */
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .slider {
+        height: 8px;      /* 略微增加滑块高度 */
+    }
+    
+    #historyChart {
+        height: 240px;
+    }
+    
+    .container {
+        padding: 0 16px;
+        margin: 16px auto;
+    }
+    
+    .card {
+        padding: 16px;
+    }
+    
+    .custom-time-group {
+        flex-direction: column;
+    }
+    
+    .confirm-btn {
+        padding: 10px 0;
+        width: 100%;
+    }
+}
+
+/* 可选：针对更大屏幕的平板进行微调 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .sensor-value {
+        font-size: 22px;
+    }
+}
